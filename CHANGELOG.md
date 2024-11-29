@@ -5,7 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-Nothing yet
+Nothing yet.
+
+## [0.2.9] - 2024-11-09
+### Added
+- Support for Rails 8.0 (#179)
+### Fixed
+- Fix `object_errors` when `object` is `false` (#173)
 
 ## [0.2.8] - 2024-08-20
 ### Added
@@ -118,7 +124,8 @@ Nothing yet
 - Add CHANGELOG (#50)
 - Add CI (#2)
 
-[Unreleased]: https://github.com/pantographe/view_component-form/compare/v0.2.8...HEAD
+[Unreleased]: https://github.com/pantographe/view_component-form/compare/v0.2.9...HEAD
+[0.2.9]: https://github.com/pantographe/view_component-form/compare/v0.2.8...v0.2.9
 [0.2.8]: https://github.com/pantographe/view_component-form/compare/v0.2.7...v0.2.8
 [0.2.7]: https://github.com/pantographe/view_component-form/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/pantographe/view_component-form/compare/v0.2.5...v0.2.6

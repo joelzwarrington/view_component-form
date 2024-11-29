@@ -24,8 +24,7 @@ jobs:
           - { ruby: "3.1", rails: "7.2", rubygems: "default" }
           - { ruby: "3.2", rails: "7.2", rubygems: "default" }
           - { ruby: "3.3", rails: "7.2", rubygems: "default" }
-          - { ruby: "3.1", rails: "head", rubygems: "latest" }
-          - { ruby: "3.2", rails: "head", rubygems: "latest" }
+          - { ruby: "3.3", rails: "8.0", rubygems: "default" }
           - { ruby: "3.3", rails: "head", rubygems: "latest" }
         action_text: ['with', 'without']
         view_component: ['2.0', '3.0']
@@ -35,12 +34,12 @@ jobs:
       VIEW_COMPONENT_FORM_USE_ACTIONTEXT: ${{ matrix.action_text == 'with' && 'true' || 'false' }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Update gemspec to test in head version
       if: matrix.versions.rails == 'head'
       run: |
-        sed -i -e 's/, "< 8.0"//g' view_component-form.gemspec
+        sed -i -e 's/, "< 8.1"//g' view_component-form.gemspec
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -54,7 +53,7 @@ jobs:
         COVERAGE=true bundle exec rake
 
     - name: Upload coverage results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: coverage-report-ruby-${{ matrix.versions.ruby }}-rails-${{ matrix.versions.rails }}-vc-${{ matrix.view_component }}-actiontext-${{ matrix.action_text }}
