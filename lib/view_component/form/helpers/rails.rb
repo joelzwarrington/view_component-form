@@ -7,9 +7,12 @@ module ViewComponent
       module Rails
         # rubocop:disable Metrics/MethodLength
         def self.included(base)
-          base.class_eval do
+          base.class_eval do # rubocop:disable Metrics/BlockLength
             (field_helpers - %i[
+              text_area
+              textarea
               check_box
+              checkbox
               datetime_field
               datetime_local_field
               fields
@@ -31,14 +34,19 @@ module ViewComponent
                 end                                   # end
               RUBY_EVAL
             end
+
             alias_method :phone_field, :telephone_field
           end
         end
         # rubocop:enable Metrics/MethodLength
 
+        def text_area(method, options = {})
+          render_component(:text_area, @object_name, method, objectify_options(options))
+        end
+
         # See: https://github.com/rails/rails/blob/33d60cb02dcac26d037332410eabaeeb0bdc384c/actionview/lib/action_view/helpers/form_helper.rb#L2280
-        def label(method, text = nil, options = {}, &block)
-          render_component(:label, @object_name, method, text, objectify_options(options), &block)
+        def label(method, text = nil, options = {}, &)
+          render_component(:label, @object_name, method, text, objectify_options(options), &)
         end
 
         def datetime_field(method, options = {})
@@ -49,9 +57,7 @@ module ViewComponent
         alias datetime_local_field datetime_field
 
         def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
-          render_component(
-            :check_box, @object_name, method, checked_value, unchecked_value, objectify_options(options)
-          )
+          render_component(:check_box, @object_name, method, checked_value, unchecked_value, objectify_options(options))
         end
 
         def radio_button(method, tag_value, options = {})
@@ -74,20 +80,20 @@ module ViewComponent
           render_component(:submit, value, options)
         end
 
-        def button(value = nil, options = {}, &block)
+        def button(value = nil, options = {}, &)
           if value.is_a?(Hash)
             options = value
             value = nil
           end
           value ||= submit_default_value
-          render_component(:button, value, options, &block)
+          render_component(:button, value, options, &)
         end
 
         # See: https://github.com/rails/rails/blob/fe76a95b0d252a2d7c25e69498b720c96b243ea2/actionview/lib/action_view/helpers/form_options_helper.rb
-        def select(method, choices = nil, options = {}, html_options = {}, &block)
+        def select(method, choices = nil, options = {}, html_options = {}, &)
           render_component(
             :select, @object_name, method, choices, objectify_options(options),
-            @default_html_options.merge(html_options), &block
+            @default_html_options.merge(html_options), &
           )
         end
 
@@ -112,10 +118,10 @@ module ViewComponent
         end
 
         def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {},
-                                   &block)
+                                   &)
           render_component(
             :collection_check_boxes, @object_name, method, collection, value_method, text_method,
-            objectify_options(options), @default_html_options.merge(html_options), &block
+            objectify_options(options), @default_html_options.merge(html_options), &
           )
         end
 
@@ -123,11 +129,11 @@ module ViewComponent
           method, collection,
           value_method, text_method,
           options = {}, html_options = {},
-          &block
+          &
         )
           render_component(
             :collection_radio_buttons, @object_name, method, collection, value_method, text_method,
-            objectify_options(options), @default_html_options.merge(html_options), &block
+            objectify_options(options), @default_html_options.merge(html_options), &
           )
         end
         # rubocop:enable Metrics/ParameterLists
